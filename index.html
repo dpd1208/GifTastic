@@ -52,7 +52,7 @@
         // Initial array of topics
         var topics = ["funny", "fails", "pranks", "scary"];
 
-        // displaytopicInfo function re-renders the HTML to display the appropriate content
+        // Function to create dynamic buttons based on user's search
         function renderButtons() {
 
             // Deleting the topics prior to adding new topics
@@ -76,6 +76,7 @@
             }
         };
 
+        // Function to display gifs from API based on button clicked
         function displayTopicInfo() {
 
             var topic = $(this).attr("data-name");
@@ -91,6 +92,8 @@
                 var results = response.data;
 
                 console.log(results);
+
+                // Looping results to get necessary data
                 for (var i = 0; i < results.length; i++) {
 
                     // Only taking action if the photo has an appropriate rating
@@ -116,21 +119,22 @@
                         topicImage.attr("data-state", "still");
                         console.log(topicImage);
 
-                        // Appending the paragraph and personImage we created to the "gifDiv" div we created
+                        // Appending the paragraph and topicImage we created to the "gifDiv" div we created
                         gifDiv.append(p);
                         gifDiv.append(topicImage);
 
 
-                        // Prepending the gifDiv to the "#gifs-appear-here" div in the HTML
+                        // Prepending the gifDiv to the "#topics-view" div in the HTML
                         $("#topics-view").prepend(gifDiv);
                     }
                 }
 
             })
         };
-
+        
+        // Function to animate gif when clicked
         function updateState(state, ele) {
-            console.log("clicked")
+            
             $(ele).attr("src", $(ele).attr("data-" + state));
             $(ele).attr("data-state", state);
 
@@ -166,7 +170,7 @@
 
             // Adding topic from the textbox to our array
             topics.push(topic);
-
+            $("#topic-input").val("");
             // Calling renderButtons which handles the processing of our topic array
             renderButtons();
         });

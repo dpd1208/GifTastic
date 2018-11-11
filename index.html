@@ -96,19 +96,49 @@
 
                             // Giving the image tag an src attribute of a proprty pulled off the
                             // result item
-                            topicImage.attr("src", results[i].images.fixed_height.url);
+                            topicImage.attr("src", results[i].images.fixed_height_still.url);
+                            topicImage.attr("data-still", results[i].images.fixed_height_still.url);
+                            topicImage.attr("data-animate", results[i].images.fixed_height.url);
+                            topicImage.attr("class", "gif");
+                            topicImage.attr("data-state", "still");
+                            console.log(topicImage);
 
                             // Appending the paragraph and personImage we created to the "gifDiv" div we created
                             gifDiv.append(p);
                             gifDiv.append(topicImage);
-                            
+
 
                             // Prepending the gifDiv to the "#gifs-appear-here" div in the HTML
                             $("#topics-view").prepend(gifDiv);
                         }
                     }
+
                 })
             };
+
+                function updateState(state, ele) {
+                    console.log("clicked")
+                    $(ele).attr("src", $(ele).attr("data-" + state));
+                    $(ele).attr("data-state", state);
+
+
+                    var state = $(this).attr("data-state");
+                    var dAnimate = $(this).attr("data-animate")
+
+                    // If the clicked image's state is still, update its src attribute to what its data-animate value is.
+                    // Then, set the image's data-state to animate
+                    // Else set src to the data-still value
+
+                    if (state === "still") {
+                        updateState('animate', this);
+                    } else {
+                        updateState('still', this);
+                    }
+
+                };
+                $(document).on("click", ".gif", updateState);
+            
+
 
             // This function handles events where add topic button is clicked
             $("#add-topic").on("click", function (event) {
@@ -123,13 +153,12 @@
                 renderButtons();
             });
 
-
             // Adding a click event listener to all elements with a class of "topic-btn"
             $(document).on("click", ".topic-btn", displayTopicInfo);
 
+
             // Calling the renderButtons function to display the intial buttons
             renderButtons();
-
         </script>
     </div>
 </body>
